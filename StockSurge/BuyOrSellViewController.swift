@@ -15,13 +15,12 @@ class BuyOrSellViewController: UIViewController {
     @IBOutlet weak var dayLowLabel: UILabel!
     @IBOutlet weak var percentChangeLabel: UILabel!
     @IBOutlet weak var comSymbol: UILabel!
-    @IBOutlet weak var numberOfShares: UITextField!
     @IBOutlet weak var orderTotal: UILabel!
-    @IBOutlet weak var segmentedControl: UISegmentedControl!
     @IBOutlet weak var sharesForTransaction: UITextField!
     @IBOutlet weak var orderTotalLabel: UILabel!
     @IBOutlet weak var companySymbolLabel: UILabel!
     @IBOutlet weak var submitOrderButton: UIButton!
+    @IBOutlet weak var numSharesOwned: UILabel!
     
     var symbol = ""
     
@@ -32,6 +31,7 @@ class BuyOrSellViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        numSharesOwned.text = "\(stock.numShares)"
         stock.getStockData(companySymbol: symbol) {
             DispatchQueue.main.async {
                 self.companySymbolLabel.text = self.stock.symbol
@@ -56,50 +56,44 @@ class BuyOrSellViewController: UIViewController {
     }
     
     @IBAction func editingEnded(_ sender: UITextField) {
-
+        
     }
     
     func updateUI() {
-        numberOfShares.resignFirstResponder()
-        numberOfShares.text! = ""
+        sharesForTransaction.resignFirstResponder()
+        sharesForTransaction.text! = ""
         submitOrderButton.isEnabled = false
     }
     
     @IBAction func calculateOrderPressed(_ sender: UIButton) {
-        numberShares = Int(Double(Int(numberOfShares.text!) ?? 0))
-        orderTotalLabel.text = "\(stock.currentPrice * Double(numberShares))"
-        numberOfShares.resignFirstResponder()
-
+        numberShares = Int(Double(Int(sharesForTransaction.text!) ?? 0))
+        print(numberShares)
+        orderTotalLabel.text = "\(stock.currentPrice * Double(numberShares).rounded())"
+        sharesForTransaction.resignFirstResponder()
+        
     }
-    func sortSegmentedControl() {
-        switch segmentedControl.selectedSegmentIndex {
-        case 0:
-            orderTotalLabel.text = "\( -stock.currentPrice * Double(numberShares))"
-        case 1:
-            orderTotalLabel.text = "\(stock.currentPrice * Double(numberShares))"
-        default:
-            print("Error")
-        }}
-    
-    
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "buyorsellmodally" {
             let destination = segue.destination as! PortfolioViewController
             destination.stock.currentPrice = self.currentPrice
         }}
     
-    
-    @IBAction func segmentedControlChanged(_ sender: UISegmentedControl) {
-        sortSegmentedControl()
-        }
-    
     @IBAction func submitOrderPressed(_ sender: UIButton) {
-        self.stock.saveData { (success) in success}
-        let isPresentingInAddMode = presentingViewController is UINavigationController
-        if isPresentingInAddMode {
-            dismiss(animated: true, completion: nil)
-        } else {
-            navigationController?.popViewController(animated: true)
+        stock.numShares = numberShares
+        stock.purchasePrice = currentPrice 
+        print(stock.numShares)
+        stock.saveData { (success) in
+            if success {
+                let isPresentingInAddMode = self.presentingViewController is UINavigationController
+                if isPresentingInAddMode {
+                    self.dismiss(animated: true, completion: nil)
+                } else {
+                    self.navigationController?.popViewController(animated: true)
+                }
+            } else {
+                self.oneButtonAlert(title: "Save Failed", message: "Data Would not Save to Cloud")
+            }
         }
     }
     

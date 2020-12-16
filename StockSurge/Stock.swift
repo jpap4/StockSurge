@@ -28,11 +28,12 @@ class Stock: Codable {
     var sellrec = 0
     var holdrec = 0
     var numShares = 0
-    var resultArray: [StockRec]! = []
-    var userID: String
-    var documentID: String
+    var resultArray: [StockRec] = []
+    var userID = ""
+    var documentID = ""
+    var purchasePrice = 0.0
     
-
+    
     
     func getStockData(companySymbol: String, completed: @ escaping() -> ()) {
         let urlString = "https://finnhub.io/api/v1/quote?symbol=\(companySymbol)&token=bvbqbsv48v6rqg57g5t0"
@@ -77,64 +78,62 @@ class Stock: Codable {
     }
     func getStockRec(companySymbol: String, completed: @ escaping() -> ()) {
         let urlStringTwo = "https://finnhub.io/api/v1/stock/recommendation?symbol=\(companySymbol)&token=bvbqbsv48v6rqg57g5t0"
-            guard let url = URL(string: urlStringTwo) else {
-                print("Error")
+        guard let url = URL(string: urlStringTwo) else {
+            print("Error")
+            return
+        }
+        let session = URLSession.shared
+        let task = session.dataTask(with: url) { (data, response, error) in
+            if error != nil {
                 return
             }
-            let session = URLSession.shared
-            let task = session.dataTask(with: url) { (data, response, error) in
-                if error != nil {
+            do {
+                self.resultArray = try JSONDecoder().decode([StockRec].self, from: data!)
+                print(self.resultArray)
+                if self.resultArray .isEmpty {                    
                     return
+                } else {
+                    self.buyrec = self.resultArray[0].buy
+                    self.holdrec = self.resultArray[0].hold
+                    self.sellrec = self.resultArray[0].sell
                 }
-                do {
-                    let returned = try JSONDecoder().decode([StockRec].self, from: data!)
-                    self.resultArray = [returned[0]]
-                    self.buyrec = returned[0].buy
-                    self.holdrec = returned[0].hold
-                    self.sellrec = returned[0].sell
-                } catch {
-                    return
-                }
-                completed()
+            } catch {
+                return
             }
-            task.resume()
+            completed()
         }
-    private func saveData(completion: @escaping (Bool) -> ()) {
-        let db = Firestore.firestore()
-        guard let currentUserID = Auth.auth().currentUser?.uid else {
-            print("not a valid user id")
-            return completion(false)
-        }
-        self.userID = currentUserID
-        let dataToSave = ["Company Symbol": symbol, "Current Price": self.currentPrice, "Day Open": dayOpen, "Day Change": dayChange, "Number of Shares Owned": numShares] as [String : Any]
-        if self.documentID == "" {
-            var ref: DocumentReference? = nil
-            ref = db.collection("stocks").addDocument(data: dataToSave) {(error) in
-                guard error == nil else {
-                    print("ERROR")
-                    return completion(false)
-                }
-                self.documentID = ref!.documentID
-                print("added document \(self.documentID)")
-                completion(true)
-            }
-        } else {
-            let ref = db.collection("stocks").document(self.documentID)
-            ref.setData(dataToSave) { (error) in
-                guard error == nil else {
-                    print("ERROR")
-                    return completion(false)
-                }
-                print("updated document \(self.documentID)")
-                completion(true)
-            }
-        }
+        task.resume()
     }
+        func saveData(completion: @escaping (Bool) -> ()) {
+            let db = Firestore.firestore()
+            guard let currentUserID = Auth.auth().currentUser?.uid else {
+                print("not a valid user id")
+                return completion(false)
+            }
+            self.userID = currentUserID
+            let dataToSave = ["Company Symbol": symbol,  "Current Price": currentPrice, "Day Open": dayOpen, "Day Change": dayChange, "Shares Owned": numShares, "Funds Invested:": Int(currentPrice) * numShares, "Purchase Price": purchasePrice, "Current Market Value": (Int(currentPrice) * numShares)] as [String : Any]
+            if self.documentID == "" {
+                var ref: DocumentReference? = nil
+                ref = db.collection("stocks").addDocument(data: dataToSave) {(error) in
+                    guard error == nil else {
+                        print("ERROR")
+                        return completion(false)
+                    }
+                    self.documentID = ref!.documentID
+                    print("added document \(self.documentID)")
+                    completion(true)
+                }
+            } else {
+                let ref = db.collection("stocks").document(self.documentID)
+                ref.setData(dataToSave) { (error) in
+                    guard error == nil else {
+                        print("ERROR")
+                        return completion(false)
+                    }
+                    print("updated document \(self.documentID)")
+                    completion(true)
+                }
+            }
+        }
 }
-        
-extension Collection where Indices.Iterator.Element == Index {
-   public subscript(safe index: Index) -> Iterator.Element? {
-     return (startIndex <= index && index < endIndex) ? self[index] : nil
-   }
-}
-    
+

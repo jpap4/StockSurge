@@ -12,32 +12,82 @@ import FirebaseUI
 
 class StockSearchViewController: UIViewController {
     @IBOutlet weak var searchView: UISearchBar!
+    @IBOutlet weak var currentPriceLabel: UILabel!
+    @IBOutlet weak var dayOpenLabel: UILabel!
+    @IBOutlet weak var dayHighLabel: UILabel!
+    @IBOutlet weak var dayLowLabel: UILabel!
+    @IBOutlet weak var percentChangeLabel: UILabel!
+    @IBOutlet weak var comSymbol: UILabel!
+    @IBOutlet weak var buyRecLabel: UILabel!
+    @IBOutlet weak var holdRecLabel: UILabel!
+    @IBOutlet weak var sellRecLabel: UILabel!
     
-    var stock = Stock() 
+    var stock = Stock()
     var authUI: FUIAuth!
-
-
-            
+    var symbol = ""
+    var numberShares = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         authUI = FUIAuth.defaultAuthUI()
         authUI.delegate = self
-
+        currentPriceLabel.text = ""
+        dayHighLabel.text = ""
+        dayOpenLabel.text = ""
+        dayHighLabel.text = ""
+        dayLowLabel.text = ""
+        percentChangeLabel.text = ""
+        comSymbol.text = ""
+        buyRecLabel.text = ""
+        holdRecLabel.text = ""
+        sellRecLabel.text = ""
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "ShowStockQuote" {
-            let destination = segue.destination as! StockQuoteViewController
-            destination.symbol = self.searchView.text!
+        switch segue.identifier ?? "" {
+        case "ShowPortfolio":
+            let destination = segue.destination as! PortfolioViewController
+            destination.stock = stock
+        case "stocksearchbuystock":
+            let destination = segue.destination as! BuyOrSellViewController
+            destination.symbol = self.symbol
+            destination.stock = stock
+        default:
+            print("Error")
         }
     }
     
     @IBAction func getQuotePressed(_ sender: UIButton) {
-        self.stock.getStockData(companySymbol: self.searchView.text ?? "") {
+        self.symbol = searchView.text ?? ""
+        print(symbol)
+        stock.getStockData(companySymbol: searchView.text ?? "") {
             DispatchQueue.main.async {
+                self.comSymbol.text = self.stock.symbol
+                self.dayHighLabel.text = "$\(self.stock.dayHigh)"
+                self.dayLowLabel.text = "$\(self.stock.dayLow)"
+                self.dayOpenLabel.text = "$\(self.stock.dayOpen)"
+                self.currentPriceLabel.text = "$\(self.stock.currentPrice)"
+                if self.stock.dayChange < 0.0 {
+                    self.percentChangeLabel.textColor = UIColor.systemRed
+                } else {
+                    self.percentChangeLabel.textColor = UIColor.systemGreen
+                }
+                self.percentChangeLabel.text = "\(self.stock.dayChange.rounded())%"
+                self.numberShares = 0
             }
         }
-    }
+        self.stock.getStockRec(companySymbol: self.symbol) {
+            DispatchQueue.main.async {
+                self.buyRecLabel.text = "\(self.stock.resultArray[0].buy)"
+                self.holdRecLabel.text = "\(self.stock.resultArray[0].hold)"
+                self.sellRecLabel.text = "\(self.stock.resultArray[0].sell)"
+                    }
+                }
+        if self.stock.resultArray .isEmpty {
+            self.oneButtonAlert(title: "Error", message: "Invalid Search")
+        } else { return }
+            }
+    
     func signOut () {
         do {
             try authUI!.signOut()
