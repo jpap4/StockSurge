@@ -3,27 +3,49 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		27A466138BD7BEBBC4D6B720 /* Pods_StockSurge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D764F28E08EE2BC502A5021 /* Pods_StockSurge.framework */; };
 		8E96B26025897001001DF987 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E96B25F25897001001DF987 /* AppDelegate.swift */; };
 		8E96B26225897001001DF987 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E96B26125897001001DF987 /* SceneDelegate.swift */; };
-		8E96B26425897001001DF987 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E96B26325897001001DF987 /* ViewController.swift */; };
 		8E96B26725897001001DF987 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E96B26525897001001DF987 /* Main.storyboard */; };
 		8E96B26925897002001DF987 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8E96B26825897002001DF987 /* Assets.xcassets */; };
 		8E96B26C25897002001DF987 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E96B26A25897002001DF987 /* LaunchScreen.storyboard */; };
+		8E96B27425897359001DF987 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E96B27325897359001DF987 /* LoginViewController.swift */; };
+		8E96B27625897629001DF987 /* StockSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E96B27525897629001DF987 /* StockSearchViewController.swift */; };
+		8E96B2782589770D001DF987 /* StockQuoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E96B2772589770D001DF987 /* StockQuoteViewController.swift */; };
+		8E96B27A258978EA001DF987 /* APIKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E96B279258978EA001DF987 /* APIKeys.swift */; };
+		8E96B27C258979F2001DF987 /* Stock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E96B27B258979F2001DF987 /* Stock.swift */; };
+		8E96B27E25897D1F001DF987 /* Stocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E96B27D25897D1F001DF987 /* Stocks.swift */; };
+		8E96B28025897DE0001DF987 /* Portfolio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E96B27F25897DE0001DF987 /* Portfolio.swift */; };
+		8E96B28925898B7B001DF987 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8E96B28825898B7B001DF987 /* GoogleService-Info.plist */; };
+		8E96B28B2589AF60001DF987 /* StockRec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E96B28A2589AF60001DF987 /* StockRec.swift */; };
+		8E96B28D2589D2D3001DF987 /* PortfolioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E96B28C2589D2D3001DF987 /* PortfolioViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5D764F28E08EE2BC502A5021 /* Pods_StockSurge.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StockSurge.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E96B25C25897001001DF987 /* StockSurge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StockSurge.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E96B25F25897001001DF987 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8E96B26125897001001DF987 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		8E96B26325897001001DF987 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		8E96B26625897001001DF987 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		8E96B26825897002001DF987 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8E96B26B25897002001DF987 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8E96B26D25897002001DF987 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8E96B27325897359001DF987 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		8E96B27525897629001DF987 /* StockSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockSearchViewController.swift; sourceTree = "<group>"; };
+		8E96B2772589770D001DF987 /* StockQuoteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockQuoteViewController.swift; sourceTree = "<group>"; };
+		8E96B279258978EA001DF987 /* APIKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKeys.swift; sourceTree = "<group>"; };
+		8E96B27B258979F2001DF987 /* Stock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stock.swift; sourceTree = "<group>"; };
+		8E96B27D25897D1F001DF987 /* Stocks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stocks.swift; sourceTree = "<group>"; };
+		8E96B27F25897DE0001DF987 /* Portfolio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Portfolio.swift; sourceTree = "<group>"; };
+		8E96B28825898B7B001DF987 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
+		8E96B28A2589AF60001DF987 /* StockRec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockRec.swift; sourceTree = "<group>"; };
+		8E96B28C2589D2D3001DF987 /* PortfolioViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioViewController.swift; sourceTree = "<group>"; };
+		BDB2E71D93BF406B68EF21EE /* Pods-StockSurge.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StockSurge.debug.xcconfig"; path = "Target Support Files/Pods-StockSurge/Pods-StockSurge.debug.xcconfig"; sourceTree = "<group>"; };
+		BF0DE0D8D658CCED95B149CC /* Pods-StockSurge.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StockSurge.release.xcconfig"; path = "Target Support Files/Pods-StockSurge/Pods-StockSurge.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,17 +53,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				27A466138BD7BEBBC4D6B720 /* Pods_StockSurge.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8C4B44007FD9E498C0FD22E0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				5D764F28E08EE2BC502A5021 /* Pods_StockSurge.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		8E96B25325897001001DF987 = {
 			isa = PBXGroup;
 			children = (
 				8E96B25E25897001001DF987 /* StockSurge */,
 				8E96B25D25897001001DF987 /* Products */,
+				BD9F518AA3D69DC059F68B90 /* Pods */,
+				8C4B44007FD9E498C0FD22E0 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -58,13 +91,31 @@
 			children = (
 				8E96B25F25897001001DF987 /* AppDelegate.swift */,
 				8E96B26125897001001DF987 /* SceneDelegate.swift */,
-				8E96B26325897001001DF987 /* ViewController.swift */,
+				8E96B27B258979F2001DF987 /* Stock.swift */,
+				8E96B28A2589AF60001DF987 /* StockRec.swift */,
+				8E96B27F25897DE0001DF987 /* Portfolio.swift */,
+				8E96B27D25897D1F001DF987 /* Stocks.swift */,
+				8E96B27325897359001DF987 /* LoginViewController.swift */,
+				8E96B27525897629001DF987 /* StockSearchViewController.swift */,
+				8E96B2772589770D001DF987 /* StockQuoteViewController.swift */,
+				8E96B28C2589D2D3001DF987 /* PortfolioViewController.swift */,
 				8E96B26525897001001DF987 /* Main.storyboard */,
+				8E96B279258978EA001DF987 /* APIKeys.swift */,
 				8E96B26825897002001DF987 /* Assets.xcassets */,
 				8E96B26A25897002001DF987 /* LaunchScreen.storyboard */,
 				8E96B26D25897002001DF987 /* Info.plist */,
+				8E96B28825898B7B001DF987 /* GoogleService-Info.plist */,
 			);
 			path = StockSurge;
+			sourceTree = "<group>";
+		};
+		BD9F518AA3D69DC059F68B90 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				BDB2E71D93BF406B68EF21EE /* Pods-StockSurge.debug.xcconfig */,
+				BF0DE0D8D658CCED95B149CC /* Pods-StockSurge.release.xcconfig */,
+			);
+			path = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -74,9 +125,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8E96B27025897002001DF987 /* Build configuration list for PBXNativeTarget "StockSurge" */;
 			buildPhases = (
+				9DA6FF5286F1032E91BB4BC8 /* [CP] Check Pods Manifest.lock */,
 				8E96B25825897001001DF987 /* Sources */,
 				8E96B25925897001001DF987 /* Frameworks */,
 				8E96B25A25897001001DF987 /* Resources */,
+				39CDCFFC14D88CD2592893DD /* [CP] Embed Pods Frameworks */,
+				7398F10CF34C598EEE44F509 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -126,6 +180,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8E96B26C25897002001DF987 /* LaunchScreen.storyboard in Resources */,
+				8E96B28925898B7B001DF987 /* GoogleService-Info.plist in Resources */,
 				8E96B26925897002001DF987 /* Assets.xcassets in Resources */,
 				8E96B26725897001001DF987 /* Main.storyboard in Resources */,
 			);
@@ -133,14 +188,81 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		39CDCFFC14D88CD2592893DD /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-StockSurge/Pods-StockSurge-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-StockSurge/Pods-StockSurge-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-StockSurge/Pods-StockSurge-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7398F10CF34C598EEE44F509 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-StockSurge/Pods-StockSurge-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-StockSurge/Pods-StockSurge-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-StockSurge/Pods-StockSurge-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9DA6FF5286F1032E91BB4BC8 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-StockSurge-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		8E96B25825897001001DF987 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8E96B26425897001001DF987 /* ViewController.swift in Sources */,
+				8E96B27A258978EA001DF987 /* APIKeys.swift in Sources */,
+				8E96B27425897359001DF987 /* LoginViewController.swift in Sources */,
 				8E96B26025897001001DF987 /* AppDelegate.swift in Sources */,
+				8E96B28025897DE0001DF987 /* Portfolio.swift in Sources */,
+				8E96B27C258979F2001DF987 /* Stock.swift in Sources */,
+				8E96B2782589770D001DF987 /* StockQuoteViewController.swift in Sources */,
 				8E96B26225897001001DF987 /* SceneDelegate.swift in Sources */,
+				8E96B27E25897D1F001DF987 /* Stocks.swift in Sources */,
+				8E96B27625897629001DF987 /* StockSearchViewController.swift in Sources */,
+				8E96B28D2589D2D3001DF987 /* PortfolioViewController.swift in Sources */,
+				8E96B28B2589AF60001DF987 /* StockRec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -282,8 +404,11 @@
 		};
 		8E96B27125897002001DF987 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BDB2E71D93BF406B68EF21EE /* Pods-StockSurge.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = StockSurge/StockSurge.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = SJF2RX3475;
 				INFOPLIST_FILE = StockSurge/Info.plist;
@@ -291,8 +416,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.pappas.StockSurge;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pappas.WeatherGift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -300,8 +426,11 @@
 		};
 		8E96B27225897002001DF987 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BF0DE0D8D658CCED95B149CC /* Pods-StockSurge.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = StockSurge/StockSurge.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = SJF2RX3475;
 				INFOPLIST_FILE = StockSurge/Info.plist;
@@ -309,8 +438,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.pappas.StockSurge;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pappas.WeatherGift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
