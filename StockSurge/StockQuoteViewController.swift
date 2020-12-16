@@ -20,8 +20,7 @@ class StockQuoteViewController: UIViewController {
     @IBOutlet weak var sellRecLabel: UILabel!
     
     var symbol = ""
-    
-    var stock = Stock()
+    var stock: Stock!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,6 +47,11 @@ class StockQuoteViewController: UIViewController {
             }
         }
 }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "BuyStockSegue" {
+            let destination = segue.destination as! BuyOrSellViewController
+            destination.symbol = self.symbol        }
+    }
     func leaveViewController() {
         let isPresentingInAddMode = presentingViewController is UINavigationController
         if isPresentingInAddMode {
@@ -58,8 +62,6 @@ class StockQuoteViewController: UIViewController {
     }
     @IBAction func cancelButtonPressed(_ sender: UIBarButtonItem) {
         leaveViewController()
-    }
-    @IBAction func buyButtonPressed(_ sender: UIBarButtonItem) {
     }
 }
 

@@ -25,6 +25,7 @@
 		8E96B28D2589D2D3001DF987 /* PortfolioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E96B28C2589D2D3001DF987 /* PortfolioViewController.swift */; };
 		8E96B28F2589D453001DF987 /* PortfolioTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E96B28E2589D453001DF987 /* PortfolioTableViewCell.swift */; };
 		8E96B2912589D968001DF987 /* BuyOrSellViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E96B2902589D968001DF987 /* BuyOrSellViewController.swift */; };
+		8E96B2932589FD29001DF987 /* Alerts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E96B2922589FD29001DF987 /* Alerts.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +49,7 @@
 		8E96B28C2589D2D3001DF987 /* PortfolioViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioViewController.swift; sourceTree = "<group>"; };
 		8E96B28E2589D453001DF987 /* PortfolioTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioTableViewCell.swift; sourceTree = "<group>"; };
 		8E96B2902589D968001DF987 /* BuyOrSellViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuyOrSellViewController.swift; sourceTree = "<group>"; };
+		8E96B2922589FD29001DF987 /* Alerts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alerts.swift; sourceTree = "<group>"; };
 		BDB2E71D93BF406B68EF21EE /* Pods-StockSurge.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StockSurge.debug.xcconfig"; path = "Target Support Files/Pods-StockSurge/Pods-StockSurge.debug.xcconfig"; sourceTree = "<group>"; };
 		BF0DE0D8D658CCED95B149CC /* Pods-StockSurge.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StockSurge.release.xcconfig"; path = "Target Support Files/Pods-StockSurge/Pods-StockSurge.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -105,6 +107,7 @@
 				8E96B28C2589D2D3001DF987 /* PortfolioViewController.swift */,
 				8E96B2902589D968001DF987 /* BuyOrSellViewController.swift */,
 				8E96B28E2589D453001DF987 /* PortfolioTableViewCell.swift */,
+				8E96B2922589FD29001DF987 /* Alerts.swift */,
 				8E96B26525897001001DF987 /* Main.storyboard */,
 				8E96B279258978EA001DF987 /* APIKeys.swift */,
 				8E96B26825897002001DF987 /* Assets.xcassets */,
@@ -270,6 +273,7 @@
 				8E96B27E25897D1F001DF987 /* Stocks.swift in Sources */,
 				8E96B27625897629001DF987 /* StockSearchViewController.swift in Sources */,
 				8E96B28D2589D2D3001DF987 /* PortfolioViewController.swift in Sources */,
+				8E96B2932589FD29001DF987 /* Alerts.swift in Sources */,
 				8E96B28B2589AF60001DF987 /* StockRec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

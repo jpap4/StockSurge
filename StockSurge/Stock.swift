@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Firebase
 
 class Stock: Codable {
     private struct Returned: Codable {
@@ -26,7 +27,11 @@ class Stock: Codable {
     var buyrec = 0
     var sellrec = 0
     var holdrec = 0
+    var numShares = 0
     var resultArray: [StockRec]! = []
+    var userID: String
+    var documentID: String
+    
 
     
     func getStockData(companySymbol: String, completed: @ escaping() -> ()) {
@@ -94,10 +99,39 @@ class Stock: Codable {
             }
             task.resume()
         }
-        
-
-    
+    private func saveData(completion: @escaping (Bool) -> ()) {
+        let db = Firestore.firestore()
+        guard let currentUserID = Auth.auth().currentUser?.uid else {
+            print("not a valid user id")
+            return completion(false)
+        }
+        self.userID = currentUserID
+        let dataToSave = ["Company Symbol": symbol, "Current Price": self.currentPrice, "Day Open": dayOpen, "Day Change": dayChange, "Number of Shares Owned": numShares] as [String : Any]
+        if self.documentID == "" {
+            var ref: DocumentReference? = nil
+            ref = db.collection("stocks").addDocument(data: dataToSave) {(error) in
+                guard error == nil else {
+                    print("ERROR")
+                    return completion(false)
+                }
+                self.documentID = ref!.documentID
+                print("added document \(self.documentID)")
+                completion(true)
+            }
+        } else {
+            let ref = db.collection("stocks").document(self.documentID)
+            ref.setData(dataToSave) { (error) in
+                guard error == nil else {
+                    print("ERROR")
+                    return completion(false)
+                }
+                print("updated document \(self.documentID)")
+                completion(true)
+            }
+        }
+    }
 }
+        
 extension Collection where Indices.Iterator.Element == Index {
    public subscript(safe index: Index) -> Iterator.Element? {
      return (startIndex <= index && index < endIndex) ? self[index] : nil

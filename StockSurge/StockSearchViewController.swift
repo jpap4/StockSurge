@@ -13,7 +13,7 @@ import FirebaseUI
 class StockSearchViewController: UIViewController {
     @IBOutlet weak var searchView: UISearchBar!
     
-    var stock = Stock()
+    var stock = Stock() 
     var authUI: FUIAuth!
 
 
@@ -57,8 +57,7 @@ class StockSearchViewController: UIViewController {
     }
     @IBAction func instructionsPressed(_ sender: UIButton) {
     }
-    @IBAction func myPortfolioPressed(_ sender: UIBarButtonItem) {
-    }
+
     
 }
 

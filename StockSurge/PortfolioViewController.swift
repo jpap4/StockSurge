@@ -14,6 +14,7 @@ class PortfolioViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
     var stocks: Stocks!
+    var stock: Stock!
     
     override func viewDidLoad() {
         super.viewDidLoad()
