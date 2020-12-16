@@ -7,16 +7,22 @@
 //
 
 import UIKit
+import FirebaseUI
+
 
 class StockSearchViewController: UIViewController {
-    
     @IBOutlet weak var searchView: UISearchBar!
     
     var stock = Stock()
+    var authUI: FUIAuth!
+
 
             
     override func viewDidLoad() {
         super.viewDidLoad()
+        authUI = FUIAuth.defaultAuthUI()
+        authUI.delegate = self
+
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -32,8 +38,47 @@ class StockSearchViewController: UIViewController {
             }
         }
     }
+    func signOut () {
+        do {
+            try authUI!.signOut()
+        } catch {
+            print("😡 ERROR: couldn't sign out")
+            performSegue(withIdentifier: "FirstShowSegue", sender: nil)
+        }
+    }
+
+    @IBAction func unwindSignOutPressed(segue: UIStoryboardSegue) {
+        if segue.identifier == "SignOutUnwind" {
+            signOut()
+        }
+    }
     
     @IBAction func getInstructionsPressed(_ sender: UIButton) {
     }
+    @IBAction func instructionsPressed(_ sender: UIButton) {
+    }
+    @IBAction func myPortfolioPressed(_ sender: UIBarButtonItem) {
+    }
+    
 }
 
+extension StockSearchViewController: FUIAuthDelegate {
+func application(_ app: UIApplication, open url: URL,
+                 options: [UIApplication.OpenURLOptionsKey : Any]) -> Bool {
+    let sourceApplication = options[UIApplication.OpenURLOptionsKey.sourceApplication] as! String?
+    if FUIAuth.defaultAuthUI()?.handleOpen(url, sourceApplication: sourceApplication) ?? false {
+        return true
+    }
+    return false
+}
+
+func authUI(_ authUI: FUIAuth, didSignInWith user: User?, error: Error?) {
+    guard error == nil else {
+        print("😡 ERROR: during signin \(error!.localizedDescription)")
+        return
+    }
+    if let user = user {
+        print("📝 We signed in with user \(user.email ?? "unknown e-mail")")
+    }
+}
+}

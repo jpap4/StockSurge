@@ -9,5 +9,5 @@
 import Foundation
 
 class Stocks {
-    var stockArray: [Stocks] = []
+    var stockArray: [Stock] = []
 }

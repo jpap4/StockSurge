@@ -23,6 +23,8 @@
 		8E96B28925898B7B001DF987 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8E96B28825898B7B001DF987 /* GoogleService-Info.plist */; };
 		8E96B28B2589AF60001DF987 /* StockRec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E96B28A2589AF60001DF987 /* StockRec.swift */; };
 		8E96B28D2589D2D3001DF987 /* PortfolioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E96B28C2589D2D3001DF987 /* PortfolioViewController.swift */; };
+		8E96B28F2589D453001DF987 /* PortfolioTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E96B28E2589D453001DF987 /* PortfolioTableViewCell.swift */; };
+		8E96B2912589D968001DF987 /* BuyOrSellViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E96B2902589D968001DF987 /* BuyOrSellViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +46,8 @@
 		8E96B28825898B7B001DF987 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		8E96B28A2589AF60001DF987 /* StockRec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockRec.swift; sourceTree = "<group>"; };
 		8E96B28C2589D2D3001DF987 /* PortfolioViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioViewController.swift; sourceTree = "<group>"; };
+		8E96B28E2589D453001DF987 /* PortfolioTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioTableViewCell.swift; sourceTree = "<group>"; };
+		8E96B2902589D968001DF987 /* BuyOrSellViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuyOrSellViewController.swift; sourceTree = "<group>"; };
 		BDB2E71D93BF406B68EF21EE /* Pods-StockSurge.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StockSurge.debug.xcconfig"; path = "Target Support Files/Pods-StockSurge/Pods-StockSurge.debug.xcconfig"; sourceTree = "<group>"; };
 		BF0DE0D8D658CCED95B149CC /* Pods-StockSurge.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StockSurge.release.xcconfig"; path = "Target Support Files/Pods-StockSurge/Pods-StockSurge.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -99,6 +103,8 @@
 				8E96B27525897629001DF987 /* StockSearchViewController.swift */,
 				8E96B2772589770D001DF987 /* StockQuoteViewController.swift */,
 				8E96B28C2589D2D3001DF987 /* PortfolioViewController.swift */,
+				8E96B2902589D968001DF987 /* BuyOrSellViewController.swift */,
+				8E96B28E2589D453001DF987 /* PortfolioTableViewCell.swift */,
 				8E96B26525897001001DF987 /* Main.storyboard */,
 				8E96B279258978EA001DF987 /* APIKeys.swift */,
 				8E96B26825897002001DF987 /* Assets.xcassets */,
@@ -252,10 +258,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8E96B2912589D968001DF987 /* BuyOrSellViewController.swift in Sources */,
 				8E96B27A258978EA001DF987 /* APIKeys.swift in Sources */,
 				8E96B27425897359001DF987 /* LoginViewController.swift in Sources */,
 				8E96B26025897001001DF987 /* AppDelegate.swift in Sources */,
 				8E96B28025897DE0001DF987 /* Portfolio.swift in Sources */,
+				8E96B28F2589D453001DF987 /* PortfolioTableViewCell.swift in Sources */,
 				8E96B27C258979F2001DF987 /* Stock.swift in Sources */,
 				8E96B2782589770D001DF987 /* StockQuoteViewController.swift in Sources */,
 				8E96B26225897001001DF987 /* SceneDelegate.swift in Sources */,

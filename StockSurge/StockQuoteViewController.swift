@@ -44,9 +44,22 @@ class StockQuoteViewController: UIViewController {
             DispatchQueue.main.async {
                 self.buyRecLabel.text = "\(self.stock.resultArray[0].buy)"
                 self.holdRecLabel.text = "\(self.stock.resultArray[0].hold)"
-                self.sellRecLabel.text = "\(self.stock.resultArray)"
+                self.sellRecLabel.text = "\(self.stock.resultArray[0].sell)"
             }
         }
 }
+    func leaveViewController() {
+        let isPresentingInAddMode = presentingViewController is UINavigationController
+        if isPresentingInAddMode {
+            dismiss(animated: true, completion: nil)
+        } else {
+            navigationController?.popViewController(animated: true)
+        }
+    }
+    @IBAction func cancelButtonPressed(_ sender: UIBarButtonItem) {
+        leaveViewController()
+    }
+    @IBAction func buyButtonPressed(_ sender: UIBarButtonItem) {
+    }
 }
 
