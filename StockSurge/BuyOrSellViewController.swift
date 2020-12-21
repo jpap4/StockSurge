@@ -22,67 +22,70 @@ class BuyOrSellViewController: UIViewController {
     @IBOutlet weak var submitOrderButton: UIButton!
     @IBOutlet weak var numSharesOwned: UILabel!
     
-    var symbol = ""
-    
     var stock: Stock!
-    
-    var currentPrice = 0.0
-    var numberShares = 0
+    var changePercent = 0.0
+    var numShares = 0.0
+    var orderAmount = 0.0
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        numSharesOwned.text = "\(stock.numShares)"
-        stock.getStockData(companySymbol: symbol) {
-            DispatchQueue.main.async {
-                self.companySymbolLabel.text = self.stock.symbol
-                self.dayHighLabel.text = "$\(self.stock.dayHigh)"
-                self.dayLowLabel.text = "$\(self.stock.dayLow)"
-                self.dayOpenLabel.text = "$\(self.stock.dayOpen)"
-                self.currentPriceLabel.text = "$\(self.stock.currentPrice)"
-                self.currentPrice = self.stock.currentPrice
-                if self.stock.dayChange < 0.0 {
-                    self.percentChangeLabel.textColor = UIColor.systemRed
-                } else {
-                    self.percentChangeLabel.textColor = UIColor.systemGreen
-                }
-                self.percentChangeLabel.text = "\(self.stock.dayChange.rounded())%"
-            }
+        
+        let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
+        tap.cancelsTouchesInView = false
+        self.view.addGestureRecognizer(tap)
+        
+        guard stock != nil else {
+            print("No Stock Passed")
+            return
+        }
+   
+        updateUserInterface()
+    }
+    
+    func updateUserInterface() {
+        self.companySymbolLabel.text = stock.symbol
+        self.dayHighLabel.text = "$\(stock.dayHigh)"
+        self.dayLowLabel.text = "$\(stock.dayLow)"
+        self.dayOpenLabel.text = "$\(stock.dayOpen)"
+        self.currentPriceLabel.text = "$\(stock.currentPrice)"
+        self.numSharesOwned.text = "\(stock.sharesOwned)"
+        changePercent = ((stock.currentPrice/stock.dayOpen) - 1) * 100
+        if self.changePercent < 0.0 {
+            self.percentChangeLabel.textColor = UIColor.systemRed
+        } else {
+            self.percentChangeLabel.textColor = UIColor.systemGreen
+        }
+        self.percentChangeLabel.text = String(format: "%.2f", changePercent) + "%"
+    }
+    
+    func leaveViewController() {
+        let isPresentingInAddMode = presentingViewController is UINavigationController
+        if isPresentingInAddMode {
+            dismiss(animated: true, completion: nil)
+        } else {
+            navigationController?.popViewController(animated: true)
         }
     }
-    @IBAction func valueChanged(_ sender: UITextField) {
-        updateUI()
-        sender.text = String(sender.text?.last ?? " ").trimmingCharacters(in: .whitespaces).uppercased()
-        
+    
+    @IBAction func cancelButtonPressed(_ sender: UIBarButtonItem) {
+        leaveViewController()
     }
     
-    @IBAction func editingEnded(_ sender: UITextField) {
-        
-    }
-    
-    func updateUI() {
-        sharesForTransaction.resignFirstResponder()
-        sharesForTransaction.text! = ""
-        submitOrderButton.isEnabled = false
-    }
     
     @IBAction func calculateOrderPressed(_ sender: UIButton) {
-        numberShares = Int(Double(Int(sharesForTransaction.text!) ?? 0))
-        print(numberShares)
-        orderTotalLabel.text = "\(stock.currentPrice * Double(numberShares).rounded())"
+        self.numShares = (Double(Int(sharesForTransaction.text!) ?? 0))
+        self.orderAmount = stock.currentPrice * numShares
+        self.orderTotalLabel.text = "$" + String(format: "%.2f", orderAmount) 
         sharesForTransaction.resignFirstResponder()
         
     }
-
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "buyorsellmodally" {
-            let destination = segue.destination as! PortfolioViewController
-            destination.stock.currentPrice = self.currentPrice
-        }}
     
     @IBAction func submitOrderPressed(_ sender: UIButton) {
-        stock.numShares = numberShares
-        stock.purchasePrice = currentPrice 
-        print(stock.numShares)
+        self.numShares = (Double(Int(sharesForTransaction.text!) ?? 0))
+        self.orderAmount = stock.currentPrice * numShares
+        stock.sharesOwned = stock.sharesOwned + self.numShares
+        stock.fundsInvested = stock.fundsInvested + self.orderAmount
+        stock.currentValue = stock.sharesOwned * stock.currentPrice
         stock.saveData { (success) in
             if success {
                 let isPresentingInAddMode = self.presentingViewController is UINavigationController
@@ -94,9 +97,7 @@ class BuyOrSellViewController: UIViewController {
             } else {
                 self.oneButtonAlert(title: "Save Failed", message: "Data Would not Save to Cloud")
             }
-        }
+}
     }
-    
-    @IBAction func myPortfolioPressed(_ sender: UIBarButtonItem) {
-    }
+
 }

@@ -9,34 +9,60 @@
 import Foundation
 import Firebase
 
-class Stock: Codable {
-    private struct Returned: Codable {
-        var results: [StockRec]!
+class Stock: NSObject, Codable {
+    var symbol: String
+    var currentPrice: Double
+    var dayOpen: Double
+    var dayHigh: Double
+    var dayLow: Double
+    var dayChange: Double
+    var fundsInvested: Double
+    var sharesOwned: Double
+    var currentValue: Double
+    var totalGainLoss: Double
+    var userID: String
+    var documentID: String
+    
+    var dictionary: [String: Any] {
+        return ["Symbol": symbol, "CurrentPrice": currentPrice, "DayOpen": dayOpen, "DayHigh": dayHigh, "DayLow": dayLow, "DayChange": dayChange, "FundsInvested": fundsInvested, "SharesOwned": sharesOwned, "CurrentValue": currentValue, "TotalGainLoss": totalGainLoss, "UserID": userID, "DocumentID": documentID]
     }
     
-    var symbol = ""
-    var currentPrice = 0.0
-    var dayHigh = 0.0
-    var dayLow = 0.0
-    var dayOpen = 0.0
-    var dayChange = 0.0
-    var sharesOwned = 0.0
-    var currentValue = 0.0
-    var totalReturn = 0.0
-    var currentDate = Date()
-    var buyrec = 0
-    var sellrec = 0
-    var holdrec = 0
-    var numShares = 0
-    var resultArray: [StockRec] = []
-    var userID = ""
-    var documentID = ""
-    var purchasePrice = 0.0
+    init(symbol: String, currentPrice: Double, dayOpen: Double, dayHigh: Double, dayLow: Double, dayChange: Double, fundsInvested: Double, sharesOwned: Double, currentValue: Double, totalGainLoss: Double, userID: String, documentID: String) {
+        self.symbol = symbol
+        self.currentPrice = currentPrice
+        self.dayOpen = dayOpen
+        self.dayHigh = dayHigh
+        self.dayLow = dayLow
+        self.dayChange = dayChange
+        self.fundsInvested = fundsInvested
+        self.sharesOwned = sharesOwned
+        self.currentValue = currentValue
+        self.totalGainLoss = totalGainLoss
+        self.userID = userID
+        self.documentID = documentID
+    }
     
+    convenience override init() {
+        self.init(symbol: "", currentPrice: 0.0, dayOpen: 0.0, dayHigh: 0.0, dayLow: 0.0, dayChange: 0.0, fundsInvested: 0.0, sharesOwned: 0.0, currentValue: 0.0, totalGainLoss: 0.0, userID: "", documentID: "")
+    }
     
+    convenience init(dictionary: [String: Any]) {
+        let symbol = dictionary["Symbol"] as! String? ?? ""
+        let currentPrice = dictionary["CurrentPrice"] as! Double? ?? 0.0
+        let dayOpen = dictionary["DayOpen"] as! Double? ?? 0.0
+        let dayHigh = dictionary["DayHigh"] as! Double? ?? 0.0
+        let dayLow = dictionary["DayLow"] as! Double? ?? 0.0
+        let dayChange = dictionary["DayChange"] as! Double? ?? 0.0
+        let fundsInvested = dictionary["FundsInvested"] as! Double? ?? 0.0
+        let sharesOwned = dictionary["SharesOwned"] as! Double? ?? 0.0
+        let currentValue = dictionary["CurrentValue"] as! Double? ?? 0.0
+        let totalGainLoss = dictionary["TotalGainLoss"] as! Double? ?? 0.0
+        let userID = dictionary["UserID"] as! String? ?? ""
+        self.init(symbol: symbol, currentPrice: currentPrice, dayOpen: dayOpen, dayHigh: dayHigh, dayLow: dayLow, dayChange: dayChange, fundsInvested: fundsInvested, sharesOwned: sharesOwned, currentValue: currentValue, totalGainLoss: totalGainLoss, userID: userID, documentID: "")
+    }
     
-    func getStockData(companySymbol: String, completed: @ escaping() -> ()) {
-        let urlString = "https://finnhub.io/api/v1/quote?symbol=\(companySymbol)&token=bvbqbsv48v6rqg57g5t0"
+    func getStockData(ticker: String, completed: @ escaping() -> ()) {
+        let urlString = "https://finnhub.io/api/v1/quote?symbol=\(ticker)&token=bvbqbsv48v6rqg57g5t0"
         
         guard let url = URL(string: urlString) else {
             print("Error: could not create a URL from \(urlString).")
@@ -51,23 +77,25 @@ class Stock: Codable {
             } else {
                 if let data = data {
                     if let jsonObj = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as? NSDictionary {
-                        if let dictionary = jsonObj as? NSDictionary {
+                        if let dictionaryD = jsonObj as? NSDictionary {
                             DispatchQueue.main.async {
                             }
-                            if let currentprice = dictionary.value(forKey: "c") {
+                            if let currentprice = dictionaryD.value(forKey: "c") {
                                 self.currentPrice = currentprice as? Double ?? 0.0
                             }
-                            if let high = dictionary.value(forKey: "h") {
+                            if let high = dictionaryD.value(forKey: "h") {
                                 self.dayHigh = high as? Double ?? 0.0
+                                
                             }
-                            if let low = dictionary.value(forKey: "l") {
+                            if let low = dictionaryD.value(forKey: "l") {
                                 self.dayLow = low as? Double ?? 0.0
+                                
                             }
-                            if let open = dictionary.value(forKey: "l") {
+                            if let open = dictionaryD.value(forKey: "o") {
                                 self.dayOpen = open as? Double ?? 0.0
+                                
                             }
-                            self.dayChange = (self.currentPrice/self.dayOpen - 1) * 100
-                            self.symbol = companySymbol
+                            self.symbol = ticker
                         } else {
                             print("Error")
                             return
@@ -76,64 +104,74 @@ class Stock: Codable {
                     }}}}
         task.resume()
     }
-    func getStockRec(companySymbol: String, completed: @ escaping() -> ()) {
-        let urlStringTwo = "https://finnhub.io/api/v1/stock/recommendation?symbol=\(companySymbol)&token=bvbqbsv48v6rqg57g5t0"
-        guard let url = URL(string: urlStringTwo) else {
-            print("Error")
-            return
+    func saveData(completion: @escaping (Bool) -> ()) {
+        let db = Firestore.firestore()
+        guard let userID = Auth.auth().currentUser?.uid else {
+            print("not a valid user id")
+            return completion(false)
         }
-        let session = URLSession.shared
-        let task = session.dataTask(with: url) { (data, response, error) in
-            if error != nil {
-                return
-            }
-            do {
-                self.resultArray = try JSONDecoder().decode([StockRec].self, from: data!)
-                print(self.resultArray)
-                if self.resultArray .isEmpty {                    
-                    return
-                } else {
-                    self.buyrec = self.resultArray[0].buy
-                    self.holdrec = self.resultArray[0].hold
-                    self.sellrec = self.resultArray[0].sell
+        self.userID = userID
+        let dataToSave: [String: Any] = self.dictionary
+        if self.documentID == "" {
+            var ref: DocumentReference? = nil
+            ref = db.collection("stocks").addDocument(data: dataToSave) {(error) in
+                guard error == nil else {
+                    print("ERROR")
+                    return completion(false)
                 }
-            } catch {
-                return
+                self.documentID = ref!.documentID
+                print("added document \(self.documentID)")
+                completion(true)
             }
-            completed()
+        } else {
+            let ref = db.collection("stocks").document(self.documentID)
+            ref.setData(dataToSave) { (error) in
+                guard error == nil else {
+                    print("ERROR")
+                    return completion(false)
+                }
+                print("updated document \(self.documentID)")
+                completion(true)
+            }
         }
-        task.resume()
     }
-        func saveData(completion: @escaping (Bool) -> ()) {
-            let db = Firestore.firestore()
-            guard let currentUserID = Auth.auth().currentUser?.uid else {
-                print("not a valid user id")
-                return completion(false)
+    func updatePrices(completed: @escaping() -> ()) {
+        let db = Firestore.firestore()
+        db.collection("stocks").addSnapshotListener { (querySnapshot, error) in
+            guard error == nil else {
+            print("Errorf")
+            return completed()
             }
-            self.userID = currentUserID
-            let dataToSave = ["Company Symbol": symbol,  "Current Price": currentPrice, "Day Open": dayOpen, "Day Change": dayChange, "Shares Owned": numShares, "Funds Invested:": Int(currentPrice) * numShares, "Purchase Price": purchasePrice, "Current Market Value": (Int(currentPrice) * numShares)] as [String : Any]
-            if self.documentID == "" {
-                var ref: DocumentReference? = nil
-                ref = db.collection("stocks").addDocument(data: dataToSave) {(error) in
-                    guard error == nil else {
-                        print("ERROR")
-                        return completion(false)
-                    }
-                    self.documentID = ref!.documentID
-                    print("added document \(self.documentID)")
-                    completion(true)
+            for document in querySnapshot!.documents {
+                let stockDictionary = document.data()
+                let symbol2 = stockDictionary["Symbol"] as! String? ?? ""
+                let currentPrice2 = stockDictionary["CurrentPrice"] as! Double? ?? 0.0
+                let dayOpen2 = stockDictionary["DayOpen"] as! Double? ?? 0.0
+                let dayHigh2 = stockDictionary["DayHigh"] as! Double? ?? 0.0
+                let dayLow2 = stockDictionary["DayLow"] as! Double? ?? 0.0
+                self.getStockData(ticker: symbol2) {
+                    self.symbol = symbol2
+                    self.currentPrice = currentPrice2
+                    self.currentValue = self.currentPrice * self.sharesOwned
+                    self.dayOpen = dayOpen2
+                    self.dayHigh = dayHigh2
+                    self.dayLow = dayLow2
                 }
-            } else {
-                let ref = db.collection("stocks").document(self.documentID)
-                ref.setData(dataToSave) { (error) in
-                    guard error == nil else {
-                        print("ERROR")
-                        return completion(false)
+                let dataToSave = self.dictionary
+                let stockRef = db.collection("stocks").document(self.documentID)
+                stockRef.updateData(dataToSave) { (error) in
+                    if error != nil {
+                        print("Errorf")
+                        completed()
+                    } else {
+                        print("goodf")
+                        completed()
                     }
-                    print("updated document \(self.documentID)")
-                    completion(true)
                 }
             }
         }
+    }
 }
+
+
 

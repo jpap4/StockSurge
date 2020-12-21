@@ -18,116 +18,124 @@ class StockSearchViewController: UIViewController {
     @IBOutlet weak var dayLowLabel: UILabel!
     @IBOutlet weak var percentChangeLabel: UILabel!
     @IBOutlet weak var comSymbol: UILabel!
-    @IBOutlet weak var buyRecLabel: UILabel!
-    @IBOutlet weak var holdRecLabel: UILabel!
-    @IBOutlet weak var sellRecLabel: UILabel!
+    @IBOutlet weak var tableView: UITableView!
     
-    var stock = Stock()
-    var authUI: FUIAuth!
-    var symbol = ""
-    var numberShares = 0
+    var stock: Stock!
+    var changePercent = 0.0
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        authUI = FUIAuth.defaultAuthUI()
-        authUI.delegate = self
-        currentPriceLabel.text = ""
-        dayHighLabel.text = ""
-        dayOpenLabel.text = ""
-        dayHighLabel.text = ""
-        dayLowLabel.text = ""
-        percentChangeLabel.text = ""
-        comSymbol.text = ""
-        buyRecLabel.text = ""
-        holdRecLabel.text = ""
-        sellRecLabel.text = ""
+        
+        let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
+        tap.cancelsTouchesInView = false
+        self.view.addGestureRecognizer(tap)
+        
+//        tableView.delegate = self
+//        tableView.dataSource = self
+        
+        if stock == nil {
+            stock = Stock()
+        } else {
+//            cancelBarButton.hide()
+//            saveBarButton.hide
+            navigationController?.setToolbarHidden(true, animated: true)
+            
+            updateUserInterface()
+        }
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        if stock.documentID != "" {
+            self.navigationController?.setToolbarHidden(true, animated: true)
+        }
+//        stockorders.loadData(stock: stock) {
+//            self.tableView.reloadData()
+//        }
     }
     
+    func disableTextEditing() {
+        searchView.isHidden = true
+        searchView.backgroundColor = .clear
+    }
+    
+    func updateUserInterface() {
+        comSymbol.text = "\(stock.symbol)"
+        currentPriceLabel.text = "\(stock.currentPrice)"
+        dayOpenLabel.text = "\(stock.dayOpen)"
+        dayHighLabel.text = "\(stock.dayHigh)"
+        dayLowLabel.text = "\(stock.dayLow)"
+        changePercent = ((stock.currentPrice/stock.dayOpen) - 1) * 100
+        if self.changePercent < 0.0 {
+            self.percentChangeLabel.textColor = UIColor.systemRed
+        } else {
+            self.percentChangeLabel.textColor = UIColor.systemGreen
+        }
+        self.percentChangeLabel.text = String(format: "%.2f", changePercent) + "%"
+     }
+    
+    func leaveViewController() {
+        let isPresentingInAddMode = presentingViewController is UINavigationController
+        if isPresentingInAddMode {
+            dismiss(animated: true, completion: nil)
+        } else {
+            navigationController?.popViewController(animated: true)
+        }
+    }
+    
+    @IBAction func cancelButtonPressed(_ sender: UIBarButtonItem) {
+        leaveViewController()
+    }
+    
+    @IBAction func saveButtonPressed(_ sender: UIBarButtonItem) {
+//        updateFromInterface()
+        stock.saveData { (success) in
+            if success {
+                self.leaveViewController()
+            } else {
+                self.oneButtonAlert(title: "Save Failed", message: "Data would not save to cloud.")
+            }
+        }
+    }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier ?? "" {
-        case "ShowPortfolio":
-            let destination = segue.destination as! PortfolioViewController
+        case "AddPurchaseOrder":
+            let navigationController = segue.destination as! UINavigationController
+            let destination = navigationController.viewControllers.first as! BuyOrSellViewController
             destination.stock = stock
-        case "stocksearchbuystock":
+        case "ShowOrderDetail":
             let destination = segue.destination as! BuyOrSellViewController
-            destination.symbol = self.symbol
             destination.stock = stock
+//            destination.stockorder = stockorders.orderArray[selectedIndexPath.row]
         default:
             print("Error")
         }
     }
     
     @IBAction func getQuotePressed(_ sender: UIButton) {
-        self.symbol = searchView.text ?? ""
-        print(symbol)
-        stock.getStockData(companySymbol: searchView.text ?? "") {
+        stock.getStockData(ticker: searchView.text!) {
             DispatchQueue.main.async {
-                self.comSymbol.text = self.stock.symbol
-                self.dayHighLabel.text = "$\(self.stock.dayHigh)"
-                self.dayLowLabel.text = "$\(self.stock.dayLow)"
-                self.dayOpenLabel.text = "$\(self.stock.dayOpen)"
-                self.currentPriceLabel.text = "$\(self.stock.currentPrice)"
-                if self.stock.dayChange < 0.0 {
-                    self.percentChangeLabel.textColor = UIColor.systemRed
-                } else {
-                    self.percentChangeLabel.textColor = UIColor.systemGreen
-                }
-                self.percentChangeLabel.text = "\(self.stock.dayChange.rounded())%"
-                self.numberShares = 0
+                self.updateUserInterface()
             }
         }
-        self.stock.getStockRec(companySymbol: self.symbol) {
-            DispatchQueue.main.async {
-                self.buyRecLabel.text = "\(self.stock.resultArray[0].buy)"
-                self.holdRecLabel.text = "\(self.stock.resultArray[0].hold)"
-                self.sellRecLabel.text = "\(self.stock.resultArray[0].sell)"
-                    }
-                }
-        if self.stock.resultArray .isEmpty {
-            self.oneButtonAlert(title: "Error", message: "Invalid Search")
-        } else { return }
-            }
-    
-    func signOut () {
-        do {
-            try authUI!.signOut()
-        } catch {
-            print("😡 ERROR: couldn't sign out")
-            performSegue(withIdentifier: "FirstShowSegue", sender: nil)
-        }
-    }
-
-    @IBAction func unwindSignOutPressed(segue: UIStoryboardSegue) {
-        if segue.identifier == "SignOutUnwind" {
-            signOut()
-        }
     }
     
-    @IBAction func getInstructionsPressed(_ sender: UIButton) {
-    }
-    @IBAction func instructionsPressed(_ sender: UIButton) {
-    }
+    @IBAction func placeOrderPressed(_ sender: UIBarButtonItem) {
+        performSegue(withIdentifier: "AddPurchaseOrder", sender: nil)
 
+    }
     
 }
+//extension StockSearchViewController: UITableViewDelegate, UITableViewDataSource {
+//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//        return 2
+////        return stockorders.orderArray.count
+//    }
+//
+//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//        let cell = tableView.dequeueReusableCell(withIdentifier: "OrderCell", for: indexPath) as! PortfolioTableViewCell
+////        cell.review = reviews.reviewArray[indexPath.row]
+//        return cell
+//    }
+//}
 
-extension StockSearchViewController: FUIAuthDelegate {
-func application(_ app: UIApplication, open url: URL,
-                 options: [UIApplication.OpenURLOptionsKey : Any]) -> Bool {
-    let sourceApplication = options[UIApplication.OpenURLOptionsKey.sourceApplication] as! String?
-    if FUIAuth.defaultAuthUI()?.handleOpen(url, sourceApplication: sourceApplication) ?? false {
-        return true
-    }
-    return false
-}
-
-func authUI(_ authUI: FUIAuth, didSignInWith user: User?, error: Error?) {
-    guard error == nil else {
-        print("😡 ERROR: during signin \(error!.localizedDescription)")
-        return
-    }
-    if let user = user {
-        print("📝 We signed in with user \(user.email ?? "unknown e-mail")")
-    }
-}
-}

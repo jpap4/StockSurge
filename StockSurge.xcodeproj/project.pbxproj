@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		27A466138BD7BEBBC4D6B720 /* Pods_StockSurge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D764F28E08EE2BC502A5021 /* Pods_StockSurge.framework */; };
+		8E0D6118258EA32C00812B27 /* StockOrder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0D6117258EA32C00812B27 /* StockOrder.swift */; };
+		8E0D611A258EA6EF00812B27 /* StockOrders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0D6119258EA6EF00812B27 /* StockOrders.swift */; };
 		8E96B26025897001001DF987 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E96B25F25897001001DF987 /* AppDelegate.swift */; };
 		8E96B26225897001001DF987 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E96B26125897001001DF987 /* SceneDelegate.swift */; };
 		8E96B26725897001001DF987 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E96B26525897001001DF987 /* Main.storyboard */; };
@@ -15,12 +17,9 @@
 		8E96B26C25897002001DF987 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8E96B26A25897002001DF987 /* LaunchScreen.storyboard */; };
 		8E96B27425897359001DF987 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E96B27325897359001DF987 /* LoginViewController.swift */; };
 		8E96B27625897629001DF987 /* StockSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E96B27525897629001DF987 /* StockSearchViewController.swift */; };
-		8E96B27A258978EA001DF987 /* APIKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E96B279258978EA001DF987 /* APIKeys.swift */; };
 		8E96B27C258979F2001DF987 /* Stock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E96B27B258979F2001DF987 /* Stock.swift */; };
 		8E96B27E25897D1F001DF987 /* Stocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E96B27D25897D1F001DF987 /* Stocks.swift */; };
-		8E96B28025897DE0001DF987 /* Portfolio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E96B27F25897DE0001DF987 /* Portfolio.swift */; };
 		8E96B28925898B7B001DF987 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8E96B28825898B7B001DF987 /* GoogleService-Info.plist */; };
-		8E96B28B2589AF60001DF987 /* StockRec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E96B28A2589AF60001DF987 /* StockRec.swift */; };
 		8E96B28D2589D2D3001DF987 /* PortfolioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E96B28C2589D2D3001DF987 /* PortfolioViewController.swift */; };
 		8E96B28F2589D453001DF987 /* PortfolioTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E96B28E2589D453001DF987 /* PortfolioTableViewCell.swift */; };
 		8E96B2912589D968001DF987 /* BuyOrSellViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E96B2902589D968001DF987 /* BuyOrSellViewController.swift */; };
@@ -29,6 +28,8 @@
 
 /* Begin PBXFileReference section */
 		5D764F28E08EE2BC502A5021 /* Pods_StockSurge.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StockSurge.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8E0D6117258EA32C00812B27 /* StockOrder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockOrder.swift; sourceTree = "<group>"; };
+		8E0D6119258EA6EF00812B27 /* StockOrders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockOrders.swift; sourceTree = "<group>"; };
 		8E96B25C25897001001DF987 /* StockSurge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StockSurge.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E96B25F25897001001DF987 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8E96B26125897001001DF987 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -38,12 +39,9 @@
 		8E96B26D25897002001DF987 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8E96B27325897359001DF987 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		8E96B27525897629001DF987 /* StockSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockSearchViewController.swift; sourceTree = "<group>"; };
-		8E96B279258978EA001DF987 /* APIKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKeys.swift; sourceTree = "<group>"; };
 		8E96B27B258979F2001DF987 /* Stock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stock.swift; sourceTree = "<group>"; };
 		8E96B27D25897D1F001DF987 /* Stocks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stocks.swift; sourceTree = "<group>"; };
-		8E96B27F25897DE0001DF987 /* Portfolio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Portfolio.swift; sourceTree = "<group>"; };
 		8E96B28825898B7B001DF987 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
-		8E96B28A2589AF60001DF987 /* StockRec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockRec.swift; sourceTree = "<group>"; };
 		8E96B28C2589D2D3001DF987 /* PortfolioViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioViewController.swift; sourceTree = "<group>"; };
 		8E96B28E2589D453001DF987 /* PortfolioTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioTableViewCell.swift; sourceTree = "<group>"; };
 		8E96B2902589D968001DF987 /* BuyOrSellViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuyOrSellViewController.swift; sourceTree = "<group>"; };
@@ -96,17 +94,16 @@
 				8E96B25F25897001001DF987 /* AppDelegate.swift */,
 				8E96B26125897001001DF987 /* SceneDelegate.swift */,
 				8E96B27B258979F2001DF987 /* Stock.swift */,
-				8E96B28A2589AF60001DF987 /* StockRec.swift */,
-				8E96B27F25897DE0001DF987 /* Portfolio.swift */,
 				8E96B27D25897D1F001DF987 /* Stocks.swift */,
+				8E0D6117258EA32C00812B27 /* StockOrder.swift */,
+				8E0D6119258EA6EF00812B27 /* StockOrders.swift */,
 				8E96B27325897359001DF987 /* LoginViewController.swift */,
-				8E96B27525897629001DF987 /* StockSearchViewController.swift */,
 				8E96B28C2589D2D3001DF987 /* PortfolioViewController.swift */,
-				8E96B2902589D968001DF987 /* BuyOrSellViewController.swift */,
 				8E96B28E2589D453001DF987 /* PortfolioTableViewCell.swift */,
+				8E96B27525897629001DF987 /* StockSearchViewController.swift */,
+				8E96B2902589D968001DF987 /* BuyOrSellViewController.swift */,
 				8E96B2922589FD29001DF987 /* Alerts.swift */,
 				8E96B26525897001001DF987 /* Main.storyboard */,
-				8E96B279258978EA001DF987 /* APIKeys.swift */,
 				8E96B26825897002001DF987 /* Assets.xcassets */,
 				8E96B26A25897002001DF987 /* LaunchScreen.storyboard */,
 				8E96B26D25897002001DF987 /* Info.plist */,
@@ -259,18 +256,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				8E96B2912589D968001DF987 /* BuyOrSellViewController.swift in Sources */,
-				8E96B27A258978EA001DF987 /* APIKeys.swift in Sources */,
 				8E96B27425897359001DF987 /* LoginViewController.swift in Sources */,
 				8E96B26025897001001DF987 /* AppDelegate.swift in Sources */,
-				8E96B28025897DE0001DF987 /* Portfolio.swift in Sources */,
 				8E96B28F2589D453001DF987 /* PortfolioTableViewCell.swift in Sources */,
 				8E96B27C258979F2001DF987 /* Stock.swift in Sources */,
 				8E96B26225897001001DF987 /* SceneDelegate.swift in Sources */,
+				8E0D6118258EA32C00812B27 /* StockOrder.swift in Sources */,
 				8E96B27E25897D1F001DF987 /* Stocks.swift in Sources */,
 				8E96B27625897629001DF987 /* StockSearchViewController.swift in Sources */,
 				8E96B28D2589D2D3001DF987 /* PortfolioViewController.swift in Sources */,
 				8E96B2932589FD29001DF987 /* Alerts.swift in Sources */,
-				8E96B28B2589AF60001DF987 /* StockRec.swift in Sources */,
+				8E0D611A258EA6EF00812B27 /* StockOrders.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
