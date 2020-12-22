@@ -28,8 +28,7 @@ class PortfolioViewController: UIViewController {
         portfolioValueLabel.text = "\(accountValue)"
         portfolioTotalGainLabel.text = "\(totalInvestedFunds)"
         stocks = Stocks()
-        stock = Stock()
-
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -39,29 +38,23 @@ class PortfolioViewController: UIViewController {
         stocks.loadData {
             self.tableView.reloadData()
         }
-
-        for stock2 in stocks.stockArray {
-            print(stock2)
-            stock = stock2
+        
+        for stock in stocks.stockArray {
             stock.getStockData(ticker: stock.symbol) {
-                DispatchQueue.main.async {
-                    self.stock.currentValue = self.stock.currentPrice * self.stock.sharesOwned
-                    self.stock.dayChange = (self.stock.currentPrice/self.stock.dayOpen) - 1
-                    self.stock.totalGainLoss = (self.stock.currentValue/self.stock.fundsInvested) - 1
-                    stock2.saveData { (success) in
-                        if success {
-                            return
-                        } else {
-                            self.oneButtonAlert(title: "Save Failed", message: "Data would not save to cloud.")
-                        }
-                    }
+                stock.currentValue = stock.currentPrice * stock.sharesOwned
+                stock.dayChange = (stock.currentPrice/stock.dayOpen) - 1
+                stock.totalGainLoss = (stock.currentValue/stock.fundsInvested) - 1
+            }
+            stock.saveData { (success) in
+                if success {
+                    print("success")
+                } else {
+                    self.oneButtonAlert(title: "Save Failed", message: "Data would not save to cloud.")
                 }
             }
-            
         }
         
-        for stock2 in stocks.stockArray {
-            stock = stock2
+        for stock in stocks.stockArray {
             accountValue += stock.currentValue
             totalInvestedFunds += stock.fundsInvested
             portfolioValueLabel.text = "$" + String(format: "%.2f", accountValue)
@@ -71,7 +64,7 @@ class PortfolioViewController: UIViewController {
                 self.portfolioTotalGainLabel.textColor = UIColor.systemGreen
             }
             portfolioTotalGainLabel.text = "Return: " + String(format: "%.2f", (accountValue/totalInvestedFunds - 1) * 100) + "%"
-
+            
         }
         
     }

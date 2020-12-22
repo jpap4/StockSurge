@@ -21,8 +21,6 @@ class BuyOrSellViewController: UIViewController {
     @IBOutlet weak var companySymbolLabel: UILabel!
     @IBOutlet weak var submitOrderButton: UIButton!
     @IBOutlet weak var numSharesOwned: UILabel!
-    @IBOutlet weak var buySharesButton: UIButton!
-    @IBOutlet weak var sellSharesButton: UIButton!
     @IBOutlet weak var shareAmount: UILabel!
     
     var stock: Stock!
@@ -84,16 +82,7 @@ class BuyOrSellViewController: UIViewController {
         
     }
     
-    @IBAction func buyButtonPressed(_ sender: UIButton) {
-        sellSharesButton.hide()
-    }
-    
-    @IBAction func sellButtonPressed(_ sender: UIButton) {
-        buySharesButton.hide()
-    }
-    
-    
-    
+
     @IBAction func submitOrderPressed(_ sender: UIButton) {
         self.numShares = (Double(Int(sharesForTransaction.text!) ?? 0))
         self.orderAmount = stock.currentPrice * numShares

@@ -144,6 +144,18 @@ class Stock: NSObject, Codable {
             }
         }
     }
+    func deleteData(stock: Stock, completion: @escaping (Bool) -> ()) {
+        let db = Firestore.firestore()
+        db.collection("stocks").document(stock.documentID).delete { (error) in
+            if let error = error {
+                print("error")
+                completion(false)
+            } else {
+                print("document deleted")
+                completion(true)
+                }
+            }
+        }
 }
 
 

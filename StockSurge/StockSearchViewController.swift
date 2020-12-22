@@ -27,6 +27,7 @@ class StockSearchViewController: UIViewController {
     
     
     var stock: Stock!
+    var stocks: Stocks!
     var changePercent = 0.0
 
     
@@ -38,8 +39,9 @@ class StockSearchViewController: UIViewController {
         tap.cancelsTouchesInView = false
         self.view.addGestureRecognizer(tap)
         
-//        tableView.delegate = self
-//        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.dataSource = self
+        
         
         if stock == nil {
             stock = Stock()
@@ -59,13 +61,12 @@ class StockSearchViewController: UIViewController {
         
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        tableView.reloadData()
 
         if stock.documentID != "" {
             self.navigationController?.setToolbarHidden(true, animated: true)
         }
-//        stockorders.loadData(stock: stock) {
-//            self.tableView.reloadData()
-//        }
     }
     
     func disableTextEditing() {
@@ -110,7 +111,14 @@ class StockSearchViewController: UIViewController {
         case "ShowOrderDetail":
             let destination = segue.destination as! BuyOrSellViewController
             destination.stock = stock
-//            destination.stockorder = stockorders.orderArray[selectedIndexPath.row]
+        case "ShowSale":
+            let destination = segue.destination as! SellViewController
+            let selectedIndexPath = tableView.indexPathForSelectedRow
+            destination.stock = stock
+            destination.purchasePrice = stock.purchasePrice[selectedIndexPath!.row]
+            destination.indexP = selectedIndexPath!.row
+            destination.numberShares = stock.purchaseOrder[selectedIndexPath!.row]
+            destination.indexO = selectedIndexPath!.row
         default:
             print("Error")
         }
@@ -130,16 +138,20 @@ class StockSearchViewController: UIViewController {
     }
     
 }
-//extension StockSearchViewController: UITableViewDelegate, UITableViewDataSource {
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return 2
-////        return stockorders.orderArray.count
-//    }
-//
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let cell = tableView.dequeueReusableCell(withIdentifier: "OrderCell", for: indexPath) as! PortfolioTableViewCell
-////        cell.review = reviews.reviewArray[indexPath.row]
-//        return cell
-//    }
-//}
+extension StockSearchViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return stock.purchaseOrder.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! HoldingsTableViewCell
+        cell.shareQuantityLabel.text = "\(stock.purchaseOrder[indexPath.row])"
+        cell.purchasePriceLabel.text = "\(stock.purchasePrice[indexPath.row])"
+        return cell
+    }
+        func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+            return 50
+    }
+}
+
 
