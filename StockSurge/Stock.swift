@@ -9,6 +9,9 @@
 import Foundation
 import Firebase
 
+
+
+
 class Stock: NSObject, Codable {
     var symbol: String
     var currentPrice: Double
@@ -22,12 +25,14 @@ class Stock: NSObject, Codable {
     var totalGainLoss: Double
     var userID: String
     var documentID: String
+    var purchaseOrder: [Double] = []
+    var purchasePrice: [Double] = []
     
     var dictionary: [String: Any] {
-        return ["Symbol": symbol, "CurrentPrice": currentPrice, "DayOpen": dayOpen, "DayHigh": dayHigh, "DayLow": dayLow, "DayChange": dayChange, "FundsInvested": fundsInvested, "SharesOwned": sharesOwned, "CurrentValue": currentValue, "TotalGainLoss": totalGainLoss, "UserID": userID, "DocumentID": documentID]
+        return ["Symbol": symbol, "CurrentPrice": currentPrice, "DayOpen": dayOpen, "DayHigh": dayHigh, "DayLow": dayLow, "DayChange": dayChange, "FundsInvested": fundsInvested, "SharesOwned": sharesOwned, "CurrentValue": currentValue, "TotalGainLoss": totalGainLoss, "UserID": userID, "DocumentID": documentID, "PurchaseOrders": purchaseOrder, "PurchasePrice": purchasePrice]
     }
     
-    init(symbol: String, currentPrice: Double, dayOpen: Double, dayHigh: Double, dayLow: Double, dayChange: Double, fundsInvested: Double, sharesOwned: Double, currentValue: Double, totalGainLoss: Double, userID: String, documentID: String) {
+    init(symbol: String, currentPrice: Double, dayOpen: Double, dayHigh: Double, dayLow: Double, dayChange: Double, fundsInvested: Double, sharesOwned: Double, currentValue: Double, totalGainLoss: Double, userID: String, documentID: String, purchaseOrder: [Double], purchasePrice: [Double]) {
         self.symbol = symbol
         self.currentPrice = currentPrice
         self.dayOpen = dayOpen
@@ -40,10 +45,12 @@ class Stock: NSObject, Codable {
         self.totalGainLoss = totalGainLoss
         self.userID = userID
         self.documentID = documentID
+        self.purchaseOrder = purchaseOrder
+        self.purchasePrice = purchasePrice
     }
     
     convenience override init() {
-        self.init(symbol: "", currentPrice: 0.0, dayOpen: 0.0, dayHigh: 0.0, dayLow: 0.0, dayChange: 0.0, fundsInvested: 0.0, sharesOwned: 0.0, currentValue: 0.0, totalGainLoss: 0.0, userID: "", documentID: "")
+        self.init(symbol: "", currentPrice: 0.0, dayOpen: 0.0, dayHigh: 0.0, dayLow: 0.0, dayChange: 0.0, fundsInvested: 0.0, sharesOwned: 0.0, currentValue: 0.0, totalGainLoss: 0.0, userID: "", documentID: "", purchaseOrder: [0.0], purchasePrice: [0.0])
     }
     
     convenience init(dictionary: [String: Any]) {
@@ -58,7 +65,9 @@ class Stock: NSObject, Codable {
         let currentValue = dictionary["CurrentValue"] as! Double? ?? 0.0
         let totalGainLoss = dictionary["TotalGainLoss"] as! Double? ?? 0.0
         let userID = dictionary["UserID"] as! String? ?? ""
-        self.init(symbol: symbol, currentPrice: currentPrice, dayOpen: dayOpen, dayHigh: dayHigh, dayLow: dayLow, dayChange: dayChange, fundsInvested: fundsInvested, sharesOwned: sharesOwned, currentValue: currentValue, totalGainLoss: totalGainLoss, userID: userID, documentID: "")
+        let purchaseOrder = dictionary["PurchaseOrders"] as! [Double] ?? [0.0]
+        let purchasePrice = dictionary["PurchasePrice"] as! [Double] ?? [0.0]
+        self.init(symbol: symbol, currentPrice: currentPrice, dayOpen: dayOpen, dayHigh: dayHigh, dayLow: dayLow, dayChange: dayChange, fundsInvested: fundsInvested, sharesOwned: sharesOwned, currentValue: currentValue, totalGainLoss: totalGainLoss, userID: userID, documentID: "", purchaseOrder: purchaseOrder, purchasePrice: purchasePrice)
     }
     
     func getStockData(ticker: String, completed: @ escaping() -> ()) {
@@ -132,42 +141,6 @@ class Stock: NSObject, Codable {
                 }
                 print("updated document \(self.documentID)")
                 completion(true)
-            }
-        }
-    }
-    func updatePrices(completed: @escaping() -> ()) {
-        let db = Firestore.firestore()
-        db.collection("stocks").addSnapshotListener { (querySnapshot, error) in
-            guard error == nil else {
-            print("Errorf")
-            return completed()
-            }
-            for document in querySnapshot!.documents {
-                let stockDictionary = document.data()
-                let symbol2 = stockDictionary["Symbol"] as! String? ?? ""
-                let currentPrice2 = stockDictionary["CurrentPrice"] as! Double? ?? 0.0
-                let dayOpen2 = stockDictionary["DayOpen"] as! Double? ?? 0.0
-                let dayHigh2 = stockDictionary["DayHigh"] as! Double? ?? 0.0
-                let dayLow2 = stockDictionary["DayLow"] as! Double? ?? 0.0
-                self.getStockData(ticker: symbol2) {
-                    self.symbol = symbol2
-                    self.currentPrice = currentPrice2
-                    self.currentValue = self.currentPrice * self.sharesOwned
-                    self.dayOpen = dayOpen2
-                    self.dayHigh = dayHigh2
-                    self.dayLow = dayLow2
-                }
-                let dataToSave = self.dictionary
-                let stockRef = db.collection("stocks").document(self.documentID)
-                stockRef.updateData(dataToSave) { (error) in
-                    if error != nil {
-                        print("Errorf")
-                        completed()
-                    } else {
-                        print("goodf")
-                        completed()
-                    }
-                }
             }
         }
     }

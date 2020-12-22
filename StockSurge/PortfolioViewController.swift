@@ -17,6 +17,8 @@ class PortfolioViewController: UIViewController {
     var stock: Stock!
     var stocks: Stocks!
     var accountValue = 0.0
+    var allTimeReturn = 0.0
+    var totalInvestedFunds = 0.0
     
     
     override func viewDidLoad() {
@@ -24,6 +26,7 @@ class PortfolioViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         portfolioValueLabel.text = "\(accountValue)"
+        portfolioTotalGainLabel.text = "\(totalInvestedFunds)"
         stocks = Stocks()
         stock = Stock()
 
@@ -42,6 +45,9 @@ class PortfolioViewController: UIViewController {
             stock = stock2
             stock.getStockData(ticker: stock.symbol) {
                 DispatchQueue.main.async {
+                    self.stock.currentValue = self.stock.currentPrice * self.stock.sharesOwned
+                    self.stock.dayChange = (self.stock.currentPrice/self.stock.dayOpen) - 1
+                    self.stock.totalGainLoss = (self.stock.currentValue/self.stock.fundsInvested) - 1
                     stock2.saveData { (success) in
                         if success {
                             return
@@ -57,7 +63,15 @@ class PortfolioViewController: UIViewController {
         for stock2 in stocks.stockArray {
             stock = stock2
             accountValue += stock.currentValue
-            portfolioValueLabel.text = "\(accountValue)"
+            totalInvestedFunds += stock.fundsInvested
+            portfolioValueLabel.text = "$" + String(format: "%.2f", accountValue)
+            if (accountValue/totalInvestedFunds - 1) * 100 < 0.0 {
+                self.portfolioTotalGainLabel.textColor = UIColor.systemRed
+            } else {
+                self.portfolioTotalGainLabel.textColor = UIColor.systemGreen
+            }
+            portfolioTotalGainLabel.text = "Return: " + String(format: "%.2f", (accountValue/totalInvestedFunds - 1) * 100) + "%"
+
         }
         
     }
@@ -66,19 +80,24 @@ class PortfolioViewController: UIViewController {
         case "ShowStockDetail" :
             let destination = segue.destination as! StockSearchViewController
             let selectedIndexPath = tableView.indexPathForSelectedRow
+            destination.navigationController?.setToolbarHidden(true, animated: true)
             destination.stock = stocks.stockArray[selectedIndexPath!.row]
             self.accountValue = 0.0
+            self.totalInvestedFunds = 0.0
         case "AddStockDetail":
             let navigationController = segue.destination as! UINavigationController
             let destination = navigationController.viewControllers.first as! StockSearchViewController
             self.accountValue = 0.0
+            self.totalInvestedFunds = 0.0
+        case "ShowAboutSegue":
+            let destination = segue.destination as! AboutViewController
         default:
             print("Error56")
         }
     }
     
     @IBAction func refreshPressed(_ sender: UIButton) {
-        if portfolioValueLabel.text == "\(0.0)" {
+        if portfolioValueLabel.text == "\(0.0)"  &&  portfolioTotalGainLabel.text == "\(0.0)" {
             viewWillAppear(true)
         } else {
             return

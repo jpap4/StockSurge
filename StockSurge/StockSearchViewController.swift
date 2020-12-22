@@ -19,12 +19,20 @@ class StockSearchViewController: UIViewController {
     @IBOutlet weak var percentChangeLabel: UILabel!
     @IBOutlet weak var comSymbol: UILabel!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var cancelBarButton: UIBarButtonItem!
+    @IBOutlet weak var getQuoteButton: UIButton!
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var holdingsLabel: UILabel!
+    @IBOutlet weak var stackView: UIStackView!
+    
     
     var stock: Stock!
     var changePercent = 0.0
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
+    
         
         let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
         tap.cancelsTouchesInView = false
@@ -35,14 +43,20 @@ class StockSearchViewController: UIViewController {
         
         if stock == nil {
             stock = Stock()
-        } else {
-//            cancelBarButton.hide()
-//            saveBarButton.hide
-            navigationController?.setToolbarHidden(true, animated: true)
+            tableView.hide()
+            holdingsLabel.hide()
             
-            updateUserInterface()
+        } else {
+            cancelBarButton.hide()
+            searchView.hide()
+            getQuoteButton.hide()
+            comSymbol.hide()
+            titleLabel.text = "\(self.stock.symbol)"
+            titleLabel.textAlignment = .center
         }
+        updateUserInterface()
     }
+        
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
@@ -86,17 +100,7 @@ class StockSearchViewController: UIViewController {
     @IBAction func cancelButtonPressed(_ sender: UIBarButtonItem) {
         leaveViewController()
     }
-    
-    @IBAction func saveButtonPressed(_ sender: UIBarButtonItem) {
-//        updateFromInterface()
-        stock.saveData { (success) in
-            if success {
-                self.leaveViewController()
-            } else {
-                self.oneButtonAlert(title: "Save Failed", message: "Data would not save to cloud.")
-            }
-        }
-    }
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier ?? "" {
         case "AddPurchaseOrder":

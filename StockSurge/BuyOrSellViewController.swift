@@ -21,6 +21,9 @@ class BuyOrSellViewController: UIViewController {
     @IBOutlet weak var companySymbolLabel: UILabel!
     @IBOutlet weak var submitOrderButton: UIButton!
     @IBOutlet weak var numSharesOwned: UILabel!
+    @IBOutlet weak var buySharesButton: UIButton!
+    @IBOutlet weak var sellSharesButton: UIButton!
+    @IBOutlet weak var shareAmount: UILabel!
     
     var stock: Stock!
     var changePercent = 0.0
@@ -34,13 +37,14 @@ class BuyOrSellViewController: UIViewController {
         tap.cancelsTouchesInView = false
         self.view.addGestureRecognizer(tap)
         
-        guard stock != nil else {
-            print("No Stock Passed")
-            return
+        if stock == nil {
+            stock = Stock()
         }
-   
         updateUserInterface()
+
+
     }
+    
     
     func updateUserInterface() {
         self.companySymbolLabel.text = stock.symbol
@@ -80,12 +84,26 @@ class BuyOrSellViewController: UIViewController {
         
     }
     
+    @IBAction func buyButtonPressed(_ sender: UIButton) {
+        sellSharesButton.hide()
+    }
+    
+    @IBAction func sellButtonPressed(_ sender: UIButton) {
+        buySharesButton.hide()
+    }
+    
+    
+    
     @IBAction func submitOrderPressed(_ sender: UIButton) {
         self.numShares = (Double(Int(sharesForTransaction.text!) ?? 0))
         self.orderAmount = stock.currentPrice * numShares
         stock.sharesOwned = stock.sharesOwned + self.numShares
         stock.fundsInvested = stock.fundsInvested + self.orderAmount
         stock.currentValue = stock.sharesOwned * stock.currentPrice
+        stock.dayChange = stock.currentPrice/stock.dayOpen - 1
+        stock.totalGainLoss = stock.currentValue/stock.fundsInvested - 1
+        stock.purchaseOrder.append(self.numShares)
+        stock.purchasePrice.append(stock.currentPrice)
         stock.saveData { (success) in
             if success {
                 let isPresentingInAddMode = self.presentingViewController is UINavigationController
